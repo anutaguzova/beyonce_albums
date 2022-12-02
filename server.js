@@ -23,26 +23,20 @@ app.get('/albums/:id', (req, res) => {
 });
 
 app.post('/albums', (req, res) => {
-    
     const album = req.body;
-    console.log(album)
-    albums.push(album)
+
+    albums.push(album);
 
     res.status(201).send({success: true})
 });
 
 app.put('/albums/:id', (req, res) => {
     const id = req.params.id;
-    albums = albums.map(function (album) {
+    albums = albums.map((album) => {
         if (album.albumId == id) {
           return {
                 albumId: id,
-                artistName: req.body.artistName,
-                collectionName: req.body.collectionName,
-                artworkUrl100:req.body.artworkUrl100,
-                releaseDate: req.body.releaseDate,
-                primaryGenreName:  req.body.primaryGenreName,
-                url:  req.body.url  
+                ...req.body 
           }
         } else {
           return album
@@ -54,9 +48,7 @@ app.put('/albums/:id', (req, res) => {
 
 app.delete('/albums/:id',(req, res) => {
     const id = req.params.id
-    const albumsFiltered = albums.filter(function (album) {
-      return album.albumId != id
-    })
+    const albumsFiltered = albums.filter((album) => album.albumId != id)
 
     albums = albumsFiltered
   
